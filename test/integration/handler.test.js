@@ -1,14 +1,14 @@
 const axios = require('axios')
 axios.defaults.adapter = require('axios/lib/adapters/http')
 
-const createQueue = require('./lib/create-queue')
+const createQueue = require('../lib/create-queue')
 
 const sampleEvent = {
   Records: [
     {
       messageId: '19dd0b57-b21e-4ac1-bd88-01bbb068cb78',
       receiptHandle: 'MessageReceiptHandle',
-      body: "{\"amount\": 5}",
+      body: '{"amount": 5}',
       attributes: [{}],
       messageAttributes: {},
       md5OfBody: '7b270e59b47ff90a553787216d55d91d',
@@ -19,17 +19,17 @@ const sampleEvent = {
   ]
 }
 describe('test handler', () => {
-
   beforeAll(async () => {
     const queueConfig = {
       name: 'calculation-out',
       endpoint: 'http://elasticmq:9324',
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_ACCESS_KEY
     }
-    await createQueue('calculation-out', queueConfig)
+    const outQueue = process.env.QUEUE_URL.split('/queue/')[1]
+    await createQueue(outQueue, queueConfig)
   })
-  
+
   test('handler unit test', async () => {
     const result = await axios({
       method: 'post',

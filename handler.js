@@ -1,13 +1,9 @@
 const parseSqsEvents = require('./lib/parse-sqs-event')
-const getQueueUrlFromContext = require('./lib/get-queue-url-from-context')
-const updateMessage = require('./lib/update-message')
+const addVatField = require('./lib/add-vat-field')
 const sendMessages = require('./lib/send-messages')
 
-module.exports.calculate = async (event, ctx) => {
-  const updatedMessages = parseSqsEvents(event).map(updateMessage)
-  if (ctx){
-    await sendMessages(updatedMessages, getQueueUrlFromContext(ctx))
-  }
+module.exports.calculate = async (event) => {
+  const updatedMessages = parseSqsEvents(event).map(addVatField)
+  await sendMessages(updatedMessages, process.env.QUEUE_URL)
   return true
 }
-

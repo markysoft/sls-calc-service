@@ -2,11 +2,12 @@ version: '3.7'
 services:
   lambda-test:
     image: lambci/lambda:build-nodejs12.x
-    command: npm run test:watch
+    command: npm run test
     environment:
       AWS_REGION: eu-west-1
       AWS_ACCESS_KEY_ID: elasticmq
       AWS_ACCESS_KEY: elasticmq
+      QUEUE_URL: http://elasticmq:9324/queue/calculation-out
     volumes:
       - ./:/var/task
     depends_on:
@@ -21,6 +22,7 @@ services:
       AWS_REGION: eu-west-1
       AWS_ACCESS_KEY_ID: elasticmq
       AWS_ACCESS_KEY: elasticmq
+      QUEUE_URL: http://elasticmq:9324/queue/calculation-out
     ports:
       - "9001:9001"
     volumes:

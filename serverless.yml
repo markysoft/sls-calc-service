@@ -8,7 +8,6 @@ provider:
     - Effect: Allow
       Action:
         - sqs:*
-        - sqs:GetQueueAttributes
       Resource: "*"  
 
 functions:
@@ -21,7 +20,7 @@ functions:
               - InQueue
               - Arn
     environment:
-      QUEUE_NAME: ${self:custom.outQueue}
+      QUEUE_URL: { "Fn::Join" : [ "", [ "https://sqs.", { "Ref" : "AWS::Region" }, ".amazonaws.com/", { "Ref" : "AWS::AccountId" }, "/${self:custom.outQueue}" ] ]  }
 
 resources:
   Resources:
