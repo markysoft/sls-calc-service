@@ -1,0 +1,7 @@
+version: '3.7'
+services:
+  lambda-build:
+    image: lambci/lambda:build-nodejs12.x
+    command: npm install
+    volumes:
+      - ./:/var/task

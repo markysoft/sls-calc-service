@@ -1,0 +1,39 @@
+service: sls-calc-service
+
+provider:
+  name: aws
+  stage: ${opt:stage, 'dev'}
+  runtime: nodejs12.x
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sqs:*
+        - sqs:GetQueueAttributes
+      Resource: "*"  
+
+functions:
+  calculate:
+    handler: handler.calculate
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - InQueue
+              - Arn
+    environment:
+      QUEUE_NAME: ${self:custom.outQueue}
+
+resources:
+  Resources:
+    InQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: ${self:custom.inQueue}
+    OutQueue:
+      Type: AWS::SQS::Queue
+      Properties:
+        QueueName: ${self:custom.outQueue}
+
+custom:
+  inQueue: calculation-in-${self:provider.stage}
+  outQueue: calculation-out-${self:provider.stage}

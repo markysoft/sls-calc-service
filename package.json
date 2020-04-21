@@ -1,0 +1,20 @@
+{
+  "name": "aws-sls-calculation-spike",
+  "version": "0.1.0",
+  "description": "Spike for serverless",
+  "main": "handler.js",
+  "dependencies": {
+    "moment": "^2.24.0"
+  },
+  "devDependencies": {
+    "axios": "^0.19.2",
+    "jest": "^25.4.0",
+    "standard": "^14.3.3"
+  },
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "author": "markysoft",
+  "license": "ISC"
+}
