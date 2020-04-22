@@ -10,8 +10,8 @@ const sampleEvent = {
       messageAttributes: {},
       md5OfBody: '7b270e59b47ff90a553787216d55d91d',
       eventSource: 'aws:sqs',
-      eventSourceARN: 'arn:aws:sqs:us-east-1:123456789012:MyQueue',
-      awsRegion: 'us-east-1'
+      eventSourceARN: 'arn:aws:sqs:eu-west-1:123456789012:MyQueue',
+      awsRegion: 'eu-west-1'
     }
   ]
 }

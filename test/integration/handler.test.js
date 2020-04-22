@@ -13,12 +13,12 @@ const sampleEvent = {
       messageAttributes: {},
       md5OfBody: '7b270e59b47ff90a553787216d55d91d',
       eventSource: 'aws:sqs',
-      eventSourceARN: 'arn:aws:sqs:us-east-1:123456789012:MyQueue',
-      awsRegion: 'us-east-1'
+      eventSourceARN: 'arn:aws:sqs:eu-west-1:123456789012:MyQueue',
+      awsRegion: 'eu-west-1'
     }
   ]
 }
-describe('test handler', () => {
+describe('handler integration test', () => {
   beforeAll(async () => {
     const queueConfig = {
       name: 'calculation-out',
@@ -30,7 +30,7 @@ describe('test handler', () => {
     await createQueue(outQueue, queueConfig)
   })
 
-  test('handler unit test', async () => {
+  test('handler integration test', async () => {
     const result = await axios({
       method: 'post',
       url: 'http://lambda:9001/2015-03-31/functions/calculate/invocations',
