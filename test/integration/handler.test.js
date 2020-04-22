@@ -30,13 +30,20 @@ describe('handler integration test', () => {
     await createQueue(outQueue, queueConfig)
   })
 
-  test('handler integration test', async () => {
+  test('handler valid integration test', async () => {
     const result = await axios({
       method: 'post',
       url: 'http://lambda:9001/2015-03-31/functions/calculate/invocations',
       data: sampleEvent
     })
-    console.log(result.data)
     expect(result.data).toEqual(true)
+  })
+  test('handler invalid integration test', async () => {
+    const result = await axios({
+      method: 'post',
+      url: 'http://lambda:9001/2015-03-31/functions/calculate/invocations',
+      data: { Records: [{ body: '' }] }
+    })
+    expect(result.data).toEqual(false)
   })
 })
