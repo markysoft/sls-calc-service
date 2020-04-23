@@ -7,16 +7,15 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
-        - sqs:*
-      Resource: "*"  
+        - sqs:SendMessage
+      Resource:
+      - Fn::GetAtt:
+        - OutQueue
+        - Arn
 
 functions:
   calculate:
     handler: handler.calculate
-    onError:
-      Fn::GetAtt:
-        - DlQueue
-        - Arn      
     events:
       - sqs:
           arn:
@@ -36,12 +35,7 @@ resources:
       Type: AWS::SQS::Queue
       Properties:
         QueueName: ${self:custom.outQueue}
-    DlQueue:
-      Type: AWS::SQS::Queue
-      Properties:
-        QueueName: ${self:custom.dlQueue}
 
 custom:
   inQueue: calculation-in-${self:provider.stage}
   outQueue: calculation-out-${self:provider.stage}
-  dlQueue: calculation-dl-${self:provider.stage}

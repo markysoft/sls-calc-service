@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Example of processing messages on an SQS queue with Lambda
+Resources:
+  calculate:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: handler.calculate
+      Runtime: nodejs12.x
+      Policies:
+        - Statement:
+          - Sid: SamSQSReadWrite
+            Effect: Allow
+            Action:
+            - sqs:SendMessage
+            Resource: !GetAtt OutSqsQueue.Arn
+      Environment:
+        Variables:
+          QUEUE_URL: !Ref OutSqsQueue # Gets SQS Queue URL
+      Events:
+        InSQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt InSqsQueue.Arn
+            BatchSize: 10
+  InSqsQueue:
+    Type: AWS::SQS::Queue
+  OutSqsQueue:
+    Type: AWS::SQS::Queue
