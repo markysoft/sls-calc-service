@@ -2,6 +2,7 @@ const axios = require('axios')
 axios.defaults.adapter = require('axios/lib/adapters/http')
 
 const createQueue = require('../lib/create-queue')
+const lambdaUrl = 'http://lambda:9001/2015-03-31/functions/calculate/invocations'
 
 const sampleEvent = {
   Records: [
@@ -33,7 +34,7 @@ describe('handler integration test', () => {
   test('handler valid integration test', async () => {
     const result = await axios({
       method: 'post',
-      url: 'http://lambda:9001/2015-03-31/functions/calculate/invocations',
+      url: lambdaUrl,
       data: sampleEvent
     })
     expect(result.data).toEqual(true)
@@ -41,7 +42,7 @@ describe('handler integration test', () => {
   test('handler invalid integration test', async () => {
     const result = await axios({
       method: 'post',
-      url: 'http://lambda:9001/2015-03-31/functions/calculate/invocations',
+      url: lambdaUrl,
       data: { Records: [{ body: '' }] }
     })
     expect(result.data).toEqual(false)

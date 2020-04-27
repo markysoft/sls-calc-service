@@ -39,3 +39,16 @@ resources:
 custom:
   inQueue: calculation-in-${self:provider.stage}
   outQueue: calculation-out-${self:provider.stage}
+
+package:
+  exclude:
+    - test/**
+    - template.yaml
+    - docker-compose.build.yaml
+    - docker-compose.yaml
+    - LICENSE
+    - README.md
+    - samconfig.toml
+    - template.yaml
+    - jest.config.js
+      
